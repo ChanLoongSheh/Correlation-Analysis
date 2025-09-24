@@ -2,7 +2,7 @@
 
 **1. Project Overview**
 
-The principal objective of this project is to define a set of spectrally independent, high-sensitivity channels for a ground-based infrared radiometer. We have successfully derived a set of nine physically-representative weighting functions, $U_i(\lambda)$, which describe the spectral radiance change $\partial I(\lambda) / \partial c_i$ for each of the nine principal modes of atmospheric variation.
+The principal objective of this project is to define a set of spectrally independent, high-sensitivity channels for a ground-based infrared radiometer. We have successfully derived a set of nine physically-representative weighting functions, $U_i(\lambda)$, which describe the spectral radiance change $$\partial I(\lambda) / \partial c_i$$ for each of the nine principal modes of atmospheric variation.
 
 However, as the provided correlation matrix `PC_pairwise_correlation_U.csv` clearly shows, these sensitivity spectra are themselves highly correlated. This is expected, as different physical processes (e.g., changes in temperature vs. water vapor at different altitudes) can produce radiance changes in similar spectral regions (e.g., the 6.3 µm water vapor band). A direct selection of filters based on the peaks of individual $U_i(\lambda)$ spectra would result in a redundant and suboptimal measurement system.
 
