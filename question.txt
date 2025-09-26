@@ -1,0 +1,18 @@
+Proposal for Gemini:
+Refer to my README4Correlation.md file. This is a Project Proposal: Redefining Atmospheric Weighting Functions using Principal Component Analysis for Optimal Filter Selection. Read it carefully and now we have finished former 6 steps. And get the unit-coefficient sensitivity Uᵢ(λ). 
+Wᵢ(λ) = 0.5 · (ΔIᵢ,plus(λ) − ΔIᵢ,minus(λ)) ≈ Δcᵢ · ∂I(λ)/∂cᵢ
+Uᵢ(λ) = Wᵢ(λ) / Δcᵢ ≈ ∂I(λ)/∂cᵢ
+
+Here are related data of unit-coefficient sensitivity Uᵢ(λ). PC_U_unit_sensitivity.csv is the unit-coefficient sensitivity Uᵢ(λ). First column is wavelength and following 9 PC unit-sensitivity. PC_pairwise_correlation_U.csv is the correlation matrix of these 9 PC unit-sensitivity.
+
+Now you can write a project proposal. The main purpose is to anaylze and define well how many filters and what wavelength bands these filters are located in. The whole project should realize the following functions: 
+
+1. For roughly show the high sensitivity band, draw the heatmap of  this unit-coefficient sensitivity matrix. Note some PC unit-sensitivity is negative.
+2. Due to the degree of freedom is 9 after joinlty analyze the temperature and dew point profiles, when explained variance is 99%, the noteworthy band number will be ≥ 9. My supervisor suggested me to condense the high brightness pixels of the heatmap, somehow we can get the finall 9 × 9 matrix and do the decorrelation (whatever Whitening Transformation or PCA or somehow other methods).
+3. However I think maybe we shouldnt do the operation of the condensation of pixels of heatmap. Because it actually do the fusion of different PC while PCs are inherently linearly independent of each other. So I am worried about whether it occurs information cross-talk of different PC (I am not sure whether this thought is right or not). Maybe we can do the condensation operation one by one PC? Or for one PC, we can do the spectrum fitting to reduce the dimensionality to 9 to15? Or for one PC, we do PCA again to reduce the dimensionality to 9 to15. Then we can use fitting parameters or PCA related parameters to do the decorrelation?
+
+In proposal you should also think about the technology stack we better use in realizing the whole functional modules, make it clear that which stack can realize which functional module and the what is the relationship between functional modules. List a detailed step-by-step implementation plan. To start from the most basic and important aspects, each step can be left as a separate step to be implemented by others.
+
+Code for Claude:
+Step 1 and 2
+Refer to my README.md file. This is a Project Proposal: Optimal Infrared Filter Selection via Eigenspectra Analysis of PCA-based Weighting Functions. Read it carefully and focus on the Step 1 and 2: Data Loading and Initial Visualization and Perform PCA on the Sensitivity Spectra. Use python to realize these two steps and do not worry about other steps. All output files shall be saved to a new folder named without timestamp. Do not run the code with command-line parsing. Also, generate a detailed log record file to conclude what (annotate the detailed meanings of the output files) and where is the output files. output csv files are all with column header and row index.

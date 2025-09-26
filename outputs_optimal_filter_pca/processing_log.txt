@@ -1,0 +1,47 @@
+Project: Optimal Infrared Filter Selection via Eigenspectra Analysis
+Steps: 1) Data Loading & Visualization; 2) PCA to Eigensensitivity Spectra.
+E_scores columns (E1..En) are the eigensensitivity spectra E(λ) vs wavelength λ.
+Heatmap uses pcolormesh with true λ cell edges and evenly spaced λ-ticks to avoid crowding.
+
+Inputs:
+  - Input CSV (U(λ)): C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\PC_U_unit_sensitivity.csv
+  - Wavelength source: from_file
+  - Wavelength λ range [µm]: 2.5 to 20 (3501 points).
+
+Data structures (shapes and meanings):
+  - U(λ): (3501, 9); rows = λ [µm], columns = original PCs (∂I(λ)/∂cᵢ).
+  - U_scaled: (3501, 9); standardized columns (zero-mean, unit-variance).
+  - E(λ): (3501, 9); PCA scores (eigensensitivity spectra) vs λ.
+  - PCA explained_variance_ratio: length = 9.
+  - PCA components (loadings): (9, 9) (rows = EV1..EVn; columns = original PCs).
+
+Outputs (what and where):
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\U_scaled.csv
+    Meaning: Standardized U(λ); index = wavelength λ [µm]; columns = original PCs.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\E_scores_eigensensitivity_spectra.csv
+    Meaning: E(λ): eigensensitivity spectra as PCA scores; index = λ [µm]; columns = E1..En.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_explained_variance_ratio.csv
+    Meaning: Explained variance ratio for each eigensensitivity spectrum E1..En.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_components_loadings.csv
+    Meaning: PCA loading matrix (rows = EV1..EVn; columns = original PCs).
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\U_column_peaks.csv
+    Meaning: Per-PC λ of max, min, and |max| in U(λ); quick check for expected spectral peaks.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\heatmap_U_lambda_vs_PC.png
+    Meaning: Wavelength-accurate heatmap of U(λ) (true λ grid; evenly spaced y-ticks).
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\line_PC1_spectrum.png
+    Meaning: Diagnostic line plot of PC1 vs λ with vertical lines at max/min/|max|.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\EigensensitivitySpectra_overlapped.png
+    Meaning: Overlapped plot of eigensensitivity spectra E1..En vs wavelength λ.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\EigensensitivitySpectra_separate_grid.png
+    Meaning: Multi-panel figure: separate subplots for each E_j(λ). Shared axes for comparison.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_singular_values.csv
+    Meaning: PCA magnitudes: explained_variance, explained_variance_ratio, sqrt_explained_variance (std of scores), and singular_values with σ_j = sqrt((N_λ − 1) · explained_variance_j).
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_singular_values.csv
+    Meaning: PCA magnitudes: explained_variance, explained_variance_ratio, sqrt_explained_variance (std of scores), and singular_values with σ_j = sqrt((N_λ − 1) · explained_variance_j).
+
+Notes:
+- E_scores are called 'scores' in PCA because they are projections of samples (here, λ) onto components;
+  in this application, they are the eigensensitivity spectra E(λ).
+- sqrt(explained_variance) is the standard deviation of E(λ) along each component;
+  scikit-learn's singular_values satisfy σ_j = sqrt((N_λ - 1) * explained_variance_j).
+- All CSVs include headers and wavelength λ [µm] as the row index where applicable.
