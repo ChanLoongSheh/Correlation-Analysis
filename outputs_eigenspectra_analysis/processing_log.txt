@@ -1,0 +1,27 @@
+Project: Optimal Infrared Filter Selection via Eigenspectra Analysis
+Step 3: Analysis of Eigensensitivity Spectra — plotting and diagnostics.
+E_scores columns (E1..En) are the eigensensitivity spectra E(λ) vs wavelength λ.
+This step reads Step 2 outputs and produces plots and summary metrics.
+
+Inputs:
+  - E_scores (E(λ)): C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\E_scores_eigensensitivity_spectra.csv
+  - PCA explained_variance_ratio: C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_explained_variance_ratio.csv
+  - Wavelength λ range [µm]: 2.5 to 20 (3501 points).
+
+Data structures (shapes and meanings):
+  - E(λ): (3501, 9); rows = λ [µm]; columns = E1..En (eigensensitivity spectra).
+  - Summary metrics: (9, 17); rows = E1..En; columns = per-component diagnostics.
+
+Outputs (what and where):
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_eigenspectra_analysis\Eigenspectra_summary_metrics.csv
+    Meaning: Per-component diagnostics: λ-grid bounds, N_λ, extrema (values and λ-locations), areas (positive/negative/|·|), zero crossings, positive/negative centroids, L2-norm, and (if provided) explained_variance_ratio.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_eigenspectra_analysis\EigensensitivitySpectra_overlapped.png
+    Meaning: Overlapped plot of E1..En vs wavelength λ.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_eigenspectra_analysis\EigensensitivitySpectra_separate_grid.png
+    Meaning: Multi-panel figure with separate subplots for each E_j(λ); shared axes for comparison.
+
+Notes:
+- Positive lobes in E_j(λ) indicate wavelengths where radiance increases under the j-th mode;
+  negative lobes indicate decreases. The absolute magnitude indicates sensitivity strength.
+- Areas and centroids provide quantitative summaries of where sensitivity is concentrated.
+- Zero crossings quantify spectral oscillation/structure in E_j(λ).
