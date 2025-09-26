@@ -1,0 +1,39 @@
+Project: Optimal Infrared Filter Selection via Eigenspectra Analysis
+Step 4: Objective Identification of Optimal Wavelengths — peak finding and filter synthesis.
+E_scores columns (E1..En) are the eigensensitivity spectra E(λ) vs wavelength λ.
+This step reads Step 2 outputs, detects peaks on |E_j(λ)|, and proposes candidate filters.
+
+Inputs:
+  - E_scores (E(λ)): C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\E_scores_eigensensitivity_spectra.csv
+  - PCA explained_variance_ratio: C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_optimal_filter_pca\pca_explained_variance_ratio.csv
+  - Wavelength λ range [µm]: 2.5 to 20 (3501 points).
+
+Data structures (shapes and meanings):
+  - E(λ): (3501, 9); rows = λ [µm]; columns = E1..En (eigensensitivity spectra).
+  - Peaks_by_component: 235 total peaks across 9 components.
+  - Candidate filters pool: (63, 17) rows (includes selected and non-selected).
+
+Key parameters:
+  - Component selection method: cumulative_evr; CUM_EVR_THRESHOLD=0.99; TOP_N_COMPONENTS=6
+  - Peak detection: MIN_PROMINENCE_FRAC=0.05, MIN_HEIGHT_FRAC=0.0, MIN_PEAK_SEP_UM=0.1 µm
+  - Global filter synthesis: TARGET_FILTER_COUNT=12, GLOBAL_MIN_SEP_UM=0.5 µm
+  - Bandwidth clipping: MIN_BANDWIDTH_UM=0.1 µm, MAX_BANDWIDTH_UM=5.0 µm
+  - Selected components (priority order): E1, E2, E3
+
+Outputs (what and where):
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_step4_peak_selection\Peaks_per_component.csv
+    Meaning: Per-component peaks on |E_j(λ)| with metrics: center λ [µm], signed amplitude, sign, prominence, FWHM-like width [µm] (rel_height=0.5), and bounds. Useful to inspect dominant spectral lobes per eigenspectrum.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_step4_peak_selection\CandidateFilters_ranked.csv
+    Meaning: Global, deconflicted candidate filter list. Columns: parent component, λ [µm] (index), prominence, EVR(component), normalized prominence, score, suggested_FWHM [µm], and selection flags/ranks. Sorted by descending score; selection enforces global min spacing.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_step4_peak_selection\Eigensensitivity_overlapped_with_peaks.png
+    Meaning: Overlapped E_j(λ) plot with peak markers (triangles up/down indicate the sign of E_j at λ*).
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_step4_peak_selection\Eigensensitivity_separate_with_peaks.png
+    Meaning: Separate subplots of each E_j(λ) with annotated peak markers for clear per-component diagnostics.
+  - C:\Users\24573\OneDrive - The University of Hong Kong\PhD\Project\atmospheric sounding\Correlation-Analysis\outputs_step4_peak_selection\CandidateFilters_on_overlapped.png
+    Meaning: Overlapped E_j(λ) with vertical bands at selected filter centers and suggested FWHM for placement.
+
+Notes:
+- Peaks are detected on |E_j(λ)| to capture sensitivity magnitude irrespective of sign; the sign at λ* is recorded.
+- Prominence provides a robust measure of peak distinctness relative to neighboring troughs.
+- Widths are computed at rel_height=0.5 on |E_j|, analogous to FWHM; suggested bandwidths are clipped to user bounds.
+- Global candidate selection balances component importance (EVR) and per-peak strength (normalized prominence) while enforcing spectral separation.
